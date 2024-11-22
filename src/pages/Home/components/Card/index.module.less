@@ -1,0 +1,58 @@
+.container {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  width: 250px;
+  height: 250px;
+  justify-content: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+
+  &:hover {
+    transition: transform .2s, box-shadow .2s;
+    transform: scale(1.05);
+    box-shadow: 0 -1px 32px 0 rgba(29, 102, 189, .16);
+  }
+
+  .icon {
+    background: white;
+    width: fit-content;
+    position: relative;
+    padding: 0.5rem;
+
+    &::before {
+      position: absolute;
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-top: 2px solid #b5afcc;
+      border-left: 2px solid #b5afcc;
+      top: 0;
+      left: 0;
+    }
+
+    &::after {
+      position: absolute;
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-right: 1px solid #b5afcc;
+      border-bottom: 1px solid #b5afcc;
+      bottom: 0;
+      right: 0;
+    }
+  }
+
+  h4 {
+    margin-bottom: 0;
+  }
+
+  .desc {
+    color: #b5afcc;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+}

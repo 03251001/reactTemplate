@@ -1,0 +1,52 @@
+body {
+  padding: 0;
+  margin: 0 !important;
+  user-select: none; /* 禁止选中文本 */
+
+  .mixinHideScroll();
+}
+
+.mixinHideScroll() {
+  &::-webkit-scrollbar-track {
+    background: rgb(26, 26, 28) !important;
+  }
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 5px !important;
+    background: rgb(57, 58, 60) !important;
+    border-radius: 20px !important;
+  }
+  /*解决ios上滑动不流畅*/
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: none;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: none;
+  }
+  &::-webkit-scrollbar-thumb:active {
+    background-color: none;
+  }
+}
+
+:global{
+ .verifyRoot{
+   .ant-modal .ant-modal-content{
+     padding: 0;
+   }
+ }
+}
