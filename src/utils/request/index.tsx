@@ -6,6 +6,7 @@ import {v4 as uuidV4} from 'uuid';
 import {ReqEncrypt} from "@utils/rsa/ReqUtils.ts";
 import {xorDecrypt} from "@utils/request/RespUtils.ts";
 import {message} from "antd";
+import {useMessageApi} from "@/context/MessageContext.tsx";
 
 const http: AxiosInstance = axios.create({
     baseURL: '/api',
@@ -54,14 +55,9 @@ http.interceptors.response.use(
         if (code === 200) {
             return response.data
         }
-        debugger
     },
     (error) => {
         if (error.response) {
-
-            message.error({
-                content:error.response.data.msg
-            })
             RespErrorHandler(error.response.data)
         } else {  // 请求未发出或网络错误
             console.error('Network error or request timeout')
@@ -71,3 +67,4 @@ http.interceptors.response.use(
 );
 
 export default http;
+// 15273034239

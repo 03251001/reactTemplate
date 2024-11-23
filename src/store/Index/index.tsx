@@ -8,7 +8,7 @@ import GlobalSlice from '@slice/GlobalSlice'
 const persistConfig = {
     key: 'root',
     storage:storage('r_security-center'),
-    // blacklist:['global']
+    blacklist:['global'], // 不持久化
 };
 
 const reducer = combineReducers({
@@ -27,7 +27,6 @@ export const store = configureStore({
             serializableCheck: false,
         }),
 });
-
 
 export const persistor = persistStore(store);
 

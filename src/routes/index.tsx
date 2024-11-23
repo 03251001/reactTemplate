@@ -15,7 +15,7 @@ import Back from "@pages/Back";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <WebProvider children={<Outlet/>}/>, // 防止进入mobile
+        element: <WebProvider children={<Layout header={false}/>}/>, // 防止进入mobile
         children: [
             // 首页
             {
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/mobile",
-        element: <MobileProvider children={<Outlet/>}/>,
+        element: <MobileProvider children={<Layout header={false}/>}/>,
         children: [
             // 首页
             {

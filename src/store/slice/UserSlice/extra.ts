@@ -15,23 +15,22 @@ export const fetchLoginByPhone = createAsyncThunk('login/phone',
 
         return thunkAPI.fulfillWithValue({
             token: "1234556",
-            name: 'jjj',
-            avatar: ''
+            name: '哈哈哈哈哈哈哈哈哈',
+            avatar: 'https://pic2.zhimg.com/v2-b9d8d76aea50684749494d3983bb7671_r.jpg'
         })
     }
 )
 
 
 /**
- * 手机号登录
+ * 获取图形验证码
  */
-export const fetchVerify = createAsyncThunk('login/verify',
+export const fetchVerify = createAsyncThunk('login/pic/verify',
     async (__, thunkAPI) => {
         const res = await getVerifyApi()
         if (res.code !== 200) {
             return thunkAPI.rejectWithValue('')
         }
-
 
         return thunkAPI.fulfillWithValue(res.data)
     }

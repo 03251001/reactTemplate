@@ -1,6 +1,6 @@
 import {ReactElement} from 'react';
 import {isMobile} from "@utils/loginMethod";
-import Back from "@pages/Back";
+import MobileHome from '@pages/Home/Mobile'
 
 interface Props {
     children: ReactElement
@@ -8,7 +8,10 @@ interface Props {
 
 function Index(props: Props) {
     const mobile = isMobile()
-    if (mobile) return <Back/>
+    if (mobile) {
+        history.replaceState(null, '', '/mobile')
+        return <MobileHome/>
+    }
     return props.children
 }
 

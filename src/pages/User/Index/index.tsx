@@ -4,7 +4,7 @@ import Card from "@pages/User/components/Card";
 import {Flex} from "antd";
 import {isMobile} from "@utils/loginMethod";
 import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "@store/Index";
+import {useAppDispatch, useAppSelector} from "@store/Index";
 import {updateLoginModal} from "@slice/GlobalSlice";
 import Footer from "@pages/Home/components/Footer";
 
@@ -18,6 +18,10 @@ function Index() {
     const mobile = isMobile()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+
+    const {
+        userInfo
+    } = useAppSelector(state => state.UserSlice)
 
     const name = mobile ? 'mobile' : 'web'
 
@@ -51,8 +55,8 @@ function Index() {
                 className={`${myCss.inner} ${mobile && myCss.mobile}`}
             >
                 <Card
-                    src={'https://pic2.zhimg.com/v2-b9d8d76aea50684749494d3983bb7671_r.jpg'}
-                    label={'3104997676'}
+                    src={userInfo?.avatar}
+                    label={userInfo?.name}
                     right={'切换账号'}
                     onClick={changeAccount}
                 />

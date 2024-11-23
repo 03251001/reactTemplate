@@ -19,21 +19,21 @@ function Index(props: Props) {
 
         if (mobile) {
             return {
-                key: 'mobile',
+                path: '/mobile',
                 element: <MobileHome/>
             }
         }
         return {
-            key: 'web',
+            path: '/',
             element: <Home/>
         }
     }
 
-    // if (!token) { // todo:在这个地方要么做一个手机号验证码的验证，要么让用户登录 ,这里先做的是让用户登录，后续跟后端沟通
-    //     const config = getConfig()
-    //
-    //     return config.element
-    // }
+    if (!token) { // todo:在这个地方要么做一个手机号验证码的验证，要么让用户登录 ,这里先做的是让用户登录，后续跟后端沟通
+        const config = getConfig()
+        history.replaceState(null, '', config?.path)
+        return config.element
+    }
 
     return props.children
 }

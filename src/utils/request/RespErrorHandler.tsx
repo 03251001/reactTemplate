@@ -1,9 +1,14 @@
+import {store} from "@store/Index";
+import {updateGlobalError} from "@slice/GlobalSlice";
+
+
 // 接口响应正常 code错误
-export  function RespErrorHandler(data: API.Resp<any>) {
+export function RespErrorHandler(data: API.Resp<any>) {
     switch (data.code) {
         case 401:
             break
         case 500:
+            store.dispatch(updateGlobalError({text: data.msg, type: 'error'}))
             break
     }
 }
