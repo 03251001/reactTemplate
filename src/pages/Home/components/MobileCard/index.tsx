@@ -6,11 +6,12 @@ import {List} from "@type/home/interface";
 
 interface Props {
     item: List
+    onClick:()=>void
 }
 
 function Index(props: Props) {
     return (
-        <Flex className={myCss.container} align={'center'} gap={'1rem'}>
+        <Flex className={myCss.container} align={'center'} gap={'1rem'} onClick={props.onClick}>
             <div className={myCss.icon}>
                 <Icons type={props.item.icon} size={30}/>
             </div>

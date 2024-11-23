@@ -69,6 +69,10 @@ const router = createBrowserRouter([
                 element: <UserCenter/>
             },
             {
+                path: 'login',
+                element: <MobileLogin/>
+            },
+            {
                 path: 'auth',
                 element: <TokenProvider children={<Layout header={true}/>}/>,
                 children: [
@@ -95,16 +99,6 @@ const router = createBrowserRouter([
                     },
                 ]
             }
-        ]
-    },
-    {
-        path: "/mobile",
-        element: <MobileProvider children={<Layout header={false}/>}/>,
-        children: [
-            {
-                path: 'login',
-                element: <MobileLogin/>
-            },
         ]
     },
     {

@@ -1,8 +1,8 @@
 import {Button, Flex, Form, Input} from "antd";
 import {LoginFieldType} from "@type/user/interface.ts";
 import React, {useState} from "react";
-import Code from "@pages/Login/components/Code";
-import {validCode, validPhone} from "@type/user/login";
+import Code from "@comps/Code";
+import {validCode, validPhone} from "@type/user/valid";
 import {useAppDispatch} from "@store/Index";
 import {fetchLoginByPhone} from "@slice/UserSlice/extra.ts";
 import {isMobile} from "@utils/loginMethod";
@@ -58,7 +58,7 @@ function Index() {
                 required={true}
                 rules={[{validator: validCode}]}
             >
-                <Input placeholder={'验证码'} suffix={<Code form={form}/>}/>
+                <Input size={'large'} placeholder={'验证码'} suffix={<Code form={form}/>}/>
             </Form.Item>
             <Form.Item<LoginFieldType.phone>>
                 <Flex justify={'center'}>

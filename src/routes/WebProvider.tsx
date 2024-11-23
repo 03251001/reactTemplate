@@ -8,12 +8,7 @@ interface Props {
 
 function Index(props: Props) {
     const mobile = isMobile()
-    if (mobile) {
-        // setTimeout(()=>{
-        //     window.location.href = '/mobile'
-        // },3000)
-        return <Back/>
-    }
+    if (mobile) return <Back/>
     return props.children
 }
 

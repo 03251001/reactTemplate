@@ -6,6 +6,7 @@ import {isMobile} from "@utils/loginMethod";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "@store/Index";
 import {updateLoginModal} from "@slice/GlobalSlice";
+import Footer from "@pages/Home/components/Footer";
 
 const Paths = {
     phone: {mobile: '/mobile/changPhoneNumber', web: '/changPhoneNumber'},
@@ -41,7 +42,7 @@ function Index() {
     }
 
     return (
-        <Flex className={myCss.container} justify={'center'}>
+        <Flex className={myCss.container} justify={'space-between'} vertical align={'center'}>
             <Flex
                 gap={20}
                 vertical
@@ -77,6 +78,8 @@ function Index() {
                     onClick={changeSteam}
                 />
             </Flex>
+
+            <Footer mobile={mobile}/>
         </Flex>
     );
 }

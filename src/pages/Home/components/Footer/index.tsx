@@ -1,4 +1,4 @@
-import {Flex, Splitter} from 'antd';
+import {Flex} from 'antd';
 import React from 'react';
 import myCss from './index.module.less'
 

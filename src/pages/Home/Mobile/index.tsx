@@ -2,12 +2,18 @@ import myCss from './index.module.less'
 import Header from "@pages/Home/components/Header";
 import {Flex} from "antd";
 import Footer from "@pages/Home/components/Footer";
-import {isMobile} from "@utils/loginMethod";
 import {desc, list, slogan} from "@type/home";
 import MobileCard from "@pages/Home/components/MobileCard";
+import {useNavigate} from "react-router-dom";
+import {needTokenMobileClick} from "@handle/user.ts";
 
 function Index() {
-    const mobile = isMobile()
+
+    const navigate = useNavigate()
+
+    function onClick(path: string) {
+        needTokenMobileClick(() => navigate('/mobile/login'), () => navigate(path))
+    }
 
     return (
         <div className={myCss.container}>
@@ -21,12 +27,12 @@ function Index() {
                 <Flex className={myCss.cardBox} vertical justify={'center'} gap={15}>
                     {
                         list?.map((item, index) => (
-                            <MobileCard item={item} key={index}/>
+                            <MobileCard onClick={() => onClick(item.mobilePath)} item={item} key={index}/>
                         ))
                     }
                 </Flex>
 
-                <Footer mobile={mobile}/>
+                <Footer mobile={true}/>
             </div>
         </div>
     );

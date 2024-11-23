@@ -1,6 +1,3 @@
-import {message} from "antd";
-
-
 // 接口响应正常 code错误
 export  function RespErrorHandler(data: API.Resp<any>) {
     switch (data.code) {

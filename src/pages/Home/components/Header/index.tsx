@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import myCss from './index.module.less'
 import {Affix, Flex, Image} from "antd";
 import {useAppDispatch, useAppSelector} from "@store/Index";

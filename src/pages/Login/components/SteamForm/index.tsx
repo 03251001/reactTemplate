@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import myCss from './index.module.less'
 import Icons from "@comps/Icons";
-import {Avatar, Button, Flex, Image} from "antd";
+import {Avatar, Button, Flex} from "antd";
 
 const btnText = {
     'success': '立即登录',

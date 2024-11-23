@@ -37,6 +37,7 @@ function Index(props: Props) {
 
     return (
         <Button disabled={start} type={'link'}
+                size={'small'}
                 onClick={startHandler}>{start ? `${count}秒后重新获取` : '获取验证码'}</Button>
     );
 }

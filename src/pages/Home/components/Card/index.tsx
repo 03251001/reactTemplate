@@ -6,11 +6,12 @@ import {List} from "@type/home/interface";
 
 interface Props {
     item: List
+    onClick:()=>void
 }
 
 function Index(props: Props) {
     return (
-        <div className={myCss.container}>
+        <div className={myCss.container} onClick={props.onClick}>
             <div className={myCss.icon}>
                 <Icons type={props.item.icon} size={50}/>
             </div>

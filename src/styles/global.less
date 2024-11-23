@@ -43,10 +43,52 @@ body {
   }
 }
 
-:global{
- .verifyRoot{
-   .ant-modal .ant-modal-content{
-     padding: 0;
-   }
- }
+:global {
+  .verifyRoot {
+    .ant-modal .ant-modal-content {
+      padding: 0;
+    }
+  }
+
+  .formWrapper {
+    margin-top: 1rem;
+    padding: 2rem 1rem;
+
+    &.mobile {
+      margin-top: 0;
+
+      .title {
+        min-width: 90vw;
+      }
+
+      .formBox {
+        min-width: 90vw;
+      }
+    }
+
+    .title {
+      min-width: 500px;
+      letter-spacing: 1px;
+    }
+
+    .formBox {
+      padding: 2rem 1rem;
+      border-radius: 10px;
+      background: white;
+      min-width: 500px;
+      box-sizing: border-box;
+
+      form {
+        width: 100%;
+      }
+
+      input {
+        width: 100%;
+      }
+
+      .submitBtn {
+        width: 100%;
+      }
+    }
+  }
 }
