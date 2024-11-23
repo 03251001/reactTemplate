@@ -1,4 +1,4 @@
-import {createBrowserRouter, Outlet} from "react-router-dom";
+import {createBrowserRouter} from "react-router-dom";
 import Layout from "../pages/Layout";
 import MobileChangeBind from "../pages/User/MobileChangeBind";
 import Home from "../pages/Home";

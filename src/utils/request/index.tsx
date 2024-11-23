@@ -5,8 +5,6 @@ import {getToken} from "@handle/user.ts";
 import {v4 as uuidV4} from 'uuid';
 import {ReqEncrypt} from "@utils/rsa/ReqUtils.ts";
 import {xorDecrypt} from "@utils/request/RespUtils.ts";
-import {message} from "antd";
-import {useMessageApi} from "@/context/MessageContext.tsx";
 
 const http: AxiosInstance = axios.create({
     baseURL: '/api',
