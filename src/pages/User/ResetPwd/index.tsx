@@ -1,29 +1,26 @@
 import {Button, Flex, Form, Input, message} from "antd";
+import {resetPwdApi,} from "@api/user.ts";
 import {validCode, validPhone} from "@type/user/valid";
 import Code from "@comps/Code";
-import {isMobile} from "@utils/loginMethod";
-import {changePhoneApi} from "@api/user.ts";
 
 function Index() {
-    const mobile = isMobile()
-    const [form] = Form.useForm<FieldType.mobileChange>()
+    const [form] = Form.useForm<FieldType.phone>()
 
     function onFinish() {
         form?.validateFields().then(values => {
-            changePhoneApi(values).then(res => {
+            resetPwdApi(values).then(res => {
                 if (res.code === 200) {
-                    message.success('更换手机号成功')
+                    message.success('重置密码成功')
                     form.resetFields()
                     history.back()
-
                 }
             })
         })
     }
 
     return (
-        <Flex align={'center'} vertical className={`formWrapper ${mobile && 'mobile'}`}>
-            <h2 className={'title'}>更换手机号</h2>
+        <Flex align={'center'} vertical className={'formWrapper'}>
+            <h2 className={'title'}>重置密码</h2>
 
             <Flex className={'formBox'}>
                 <Form
@@ -33,37 +30,20 @@ function Index() {
                     onFinish={onFinish}
                     autoComplete="off"
                 >
-                    <Form.Item<FieldType.mobileChange>
-                        label="旧手机号"
-                        name="oldPhone"
-                        required={true}
-                        rules={[{validator: validPhone}]}
-                    >
-                        <Input size={'large'}/>
-                    </Form.Item>
-
-                    <Form.Item<FieldType.mobileChange>
-                        label="新手机号"
+                    <Form.Item<FieldType.phone>
+                        label="手机号"
                         name="phone"
-                        required={true}
                         rules={[{validator: validPhone}]}
                     >
                         <Input size={'large'}/>
                     </Form.Item>
 
-                    <Form.Item<FieldType.mobileChange>
+                    <Form.Item<FieldType.phone>
                         label="验证码"
                         name="code"
-                        required={true}
                         rules={[{validator: validCode}]}
                     >
-
-                        <Code
-                            form={form}
-                            loginCode={false}
-                            type={'sendPhone'}
-                        />
-
+                        <Code form={form} loginCode={false} type={'restCode'}/>
                     </Form.Item>
 
                     <Form.Item label={null}>
@@ -73,6 +53,7 @@ function Index() {
                     </Form.Item>
                 </Form>
             </Flex>
+
         </Flex>
     );
 }

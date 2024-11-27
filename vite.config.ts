@@ -4,9 +4,14 @@ import {resolve} from 'path'
 import path from "node:path";
 
 export default defineConfig({
-    plugins: [react()],
+    publicDir:'/',
+    plugins: [
+        react(),
+
+    ],
     server: {
         port: 10010,
+        host:true,
         proxy: {
             "/api": {
                 target: 'http://192.168.50.250:14001',

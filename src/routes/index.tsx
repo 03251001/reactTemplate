@@ -2,20 +2,19 @@ import {createBrowserRouter} from "react-router-dom";
 import Layout from "../pages/Layout";
 import MobileChangeBind from "../pages/User/MobileChangeBind";
 import Home from "../pages/Home";
-import MobileHome from "@pages/Home/Mobile/index.tsx";
 import MobileLogin from "@pages/Login/MobileLogin";
 import UserCenter from '@pages/User/Index'
 import R0UpdatePwd from "@pages/User/R0UpdatePwd";
-import SteamChangeBind from "@pages/User/SteamChangeBind";
-import WebProvider from "@/routes/WebProvider.tsx";
 import TokenProvider from "@/routes/TokenProvider.tsx";
-import MobileProvider from "@/routes/MobileProvider.tsx";
 import Back from "@pages/Back";
+import SteamStatus from "@pages/Login/components/SteamStatus";
+import SteamChangeStatus from "@pages/User/SteamChangeStatus";
+import ResetPwd from "@pages/User/ResetPwd";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <WebProvider children={<Layout header={false}/>}/>, // 防止进入mobile
+        element: <Layout header={false}/>,
         children: [
             // 首页
             {
@@ -46,10 +45,10 @@ const router = createBrowserRouter([
                         path: 'updatePwd',
                         element: <R0UpdatePwd/>
                     },
-                    // Steam换绑
+                    // 忘记密码
                     {
-                        path: 'changeSteamAccount',
-                        element: <SteamChangeBind/>
+                        path: 'resetPwd',
+                        element: <ResetPwd/>
                     },
                 ]
             }
@@ -57,57 +56,41 @@ const router = createBrowserRouter([
     },
     {
         path: "/mobile",
-        element: <MobileProvider children={<Layout header={false}/>}/>,
+        element: <Layout header={false}/>,
         children: [
-            // 首页
-            {
-                index: true,
-                element: <MobileHome/>
-            },
-            {
-                path: 'center',
-                element: <UserCenter/>
-            },
             {
                 path: 'login',
                 element: <MobileLogin/>
-            },
-            {
-                path: 'auth',
-                element: <TokenProvider children={<Layout header={true}/>}/>,
-                children: [
-                    // 操作中心
-                    {
-                        index: true,
-                        element: <UserCenter/>
-                    },
-
-                    // 手机号换绑
-                    {
-                        path: 'changPhoneNumber',
-                        element: <MobileChangeBind/>
-                    },
-                    // R0平台修改密码
-                    {
-                        path: 'updatePwd',
-                        element: <R0UpdatePwd/>
-                    },
-                    // Steam换绑
-                    {
-                        path: 'changeSteamAccount',
-                        element: <SteamChangeBind/>
-                    },
-                ]
             }
         ]
     },
     {
         path: "/back",
         element: <Layout header={false}/>,
-        children:[
+        children: [
             {
                 index: true,
                 element: <Back/>
+            }
+        ]
+    },
+    {
+        path: "/steam",
+        element: <TokenProvider children={<Layout header={false}/>}/>,
+        children: [
+            {
+                path: 'status',
+                element: <SteamStatus/>
+            }
+        ]
+    },
+    {
+        path: "/bind/steam",
+        element: <TokenProvider children={<Layout header={false}/>}/>,
+        children: [
+            {
+                path: 'result',
+                element: <SteamChangeStatus/>
             }
         ]
     },

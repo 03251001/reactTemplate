@@ -7,33 +7,48 @@ import banner from '@assets/banner.png'
 import Footer from "@pages/Home/components/Footer";
 import {useNavigate} from "react-router-dom";
 import {needTokenClick} from "@handle/user.ts";
+import {isMobile} from "@utils/loginMethod";
+import {useAppDispatch} from "@store/Index";
+import {updateLoginModal} from "@slice/GlobalSlice";
+import {RouterPath} from "@/routes/routerPath.ts";
 
 function Index() {
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const routerPath = RouterPath()
 
-    function onClick(path: string) {
-        needTokenClick(()=> navigate(path))
+    function onClick() {
+        needTokenClick((mobile) => {
+            if (mobile) {
+                navigate(routerPath.mobileLogin)
+                return
+            }
+            dispatch(updateLoginModal(true))
+        }, () => navigate(routerPath.center))
     }
 
     return (
         <div className={myCss.container}>
             <Header mobile={false}/>
 
-            <Flex justify={'center'} className={myCss.title} align={'center'} gap={100}>
-                <Flex vertical>
-                    <h1>{slogan}</h1>
-                    <h5>{desc}</h5>
+            <div className={myCss.inner}>
+                <Flex className={myCss.title} vertical>
+                    <Flex vertical gap={10}>
+                        <h1>{slogan}</h1>
+                        <h5>{desc}</h5>
+                    </Flex>
+
+                    {
+                        !isMobile() && (
+                            <Image src={banner} width={300} height={300} preview={false}/>
+                        )
+                    }
                 </Flex>
 
-                <Image src={banner} width={300} preview={false}/>
-            </Flex>
-
-
-            <div className={myCss.inner}>
-                <Flex className={myCss.cardBox} justify={'center'} gap={30}>
+                <Flex className={myCss.cardBox} justify={'center'}>
                     {
                         list?.map((item, index) => (
-                            <Card onClick={() => onClick(item.path)} item={item} key={index}/>
+                            <Card onClick={onClick} item={item} key={index}/>
                         ))
                     }
                 </Flex>

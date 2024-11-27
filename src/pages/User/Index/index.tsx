@@ -7,56 +7,62 @@ import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "@store/Index";
 import {updateLoginModal} from "@slice/GlobalSlice";
 import Footer from "@pages/Home/components/Footer";
-
-const Paths = {
-    phone: {mobile: '/mobile/changPhoneNumber', web: '/changPhoneNumber'},
-    pwd: {mobile: '/mobile/updatePwd', web: '/updatePwd'},
-    steam: {mobile: '/mobile/changeSteamAccount', web: '/changeSteamAccount'},
-}
+import {getChangeSteamLinkApi} from "@api/user.ts";
+import {RouterPath} from "@/routes/routerPath.ts";
+import {initialState} from "@slice/UserSlice/interface.ts";
 
 function Index() {
     const mobile = isMobile()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+    const routerPath = RouterPath()
 
     const {
         userInfo
-    } = useAppSelector(state => state.UserSlice)
-
-    const name = mobile ? 'mobile' : 'web'
+    } = useAppSelector(state => state.UserSlice || initialState)
 
     function changeAccount() {
         if (mobile) {
-            navigate('/mobile/login')
+            navigate(routerPath.mobileLogin)
         } else {
             dispatch(updateLoginModal(true))
         }
     }
 
     function changPhone() {
-        navigate(Paths.phone[name])
+        navigate(routerPath.changPhoneNumber)
     }
 
     function updatePwd() {
-        navigate(Paths.pwd[name])
+        navigate(routerPath.updatePwd)
     }
 
     function changeSteam() {
-        navigate(Paths.steam[name])
+        getChangeSteamLinkApi().then(res => {
+            if (res.code == 200) {
+                window.open(res.data, '_blank', 'location=no')
+
+
+            }
+        })
+    }
+
+    function resetPwd() {
+        navigate(routerPath.resetPwd)
     }
 
     return (
         <Flex className={myCss.container} justify={'space-between'} vertical align={'center'}>
             <Flex
-                gap={20}
+                gap={10}
                 vertical
                 justify={'center'}
                 align={'center'}
-                className={`${myCss.inner} ${mobile && myCss.mobile}`}
+                className={myCss.inner}
             >
                 <Card
-                    src={userInfo?.avatar}
-                    label={userInfo?.name}
+                    src={'https://arena.oss.r0csgo.com:9001/group_avatar/default.png'}
+                    label={userInfo?.username || 'R0用户'}
                     right={'切换账号'}
                     onClick={changeAccount}
                 />
@@ -80,6 +86,13 @@ function Index() {
                     label={'Steam换绑'}
                     right={'去换绑'}
                     onClick={changeSteam}
+                />
+
+                <Card
+                    src={'r-reset'}
+                    label={'重置密码'}
+                    right={'去设置'}
+                    onClick={resetPwd}
                 />
             </Flex>
 

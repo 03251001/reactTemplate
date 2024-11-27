@@ -1,97 +1,118 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import myCss from './index.module.less'
 import Icons from "@comps/Icons";
-import {Avatar, Button, Flex} from "antd";
+import {Button, Flex} from "antd";
+import {LoginSteamApi} from "@api/login.ts";
+import _ from 'lodash'
+import {useAppDispatch, useAppSelector} from "@store/Index";
+import {updateSteamStatus, updateToken} from "@slice/UserSlice";
+import {updateLoginModal} from "@slice/GlobalSlice";
+import {useNavigate} from "react-router-dom";
+import {RouterPath} from "@/routes/routerPath.ts";
+import {initialState} from "@slice/UserSlice/interface.ts";
+
 
 const btnText = {
-    'success': '立即登录',
+    '': '我已开启Steam加速器，开始登录',
+    'success': '登录成功',
     'loading': '检测中',
-    'error': '检测本机Steam',
+    'error': '重新登录',
 }
 
 const descText = {
-    'success': '',
+    '': 'Steam',
+    'success': '登录成功',
     'loading': '正在检测Steam登录',
     'error': '登录Steam或蒸汽平台',
 }
 
-type Status = 'success' | 'loading' | 'error'
+function Index(props: { link: boolean }) {
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
-const InitSteamInfo = {
-    avatar: '',
-    name: ''
-}
-
-function Index() {
-    const [loading, setLoading] = useState(false)
-    const [steamInfo, setSteamInfo] = useState(InitSteamInfo)
-    const [status, setStatus] = useState<Status>('success')
+    const {
+        steamStatus
+    } = useAppSelector(state => state.UserSlice || initialState)
 
 
     function fetchSteamInfo() {
-        setLoading(true)
-        setStatus('loading')
-        setTimeout(() => {
-            const flag = true
+        LoginSteamApi().then(res => {
+            const flag = res?.code === 200
             if (flag) {
-                setSteamInfo({
-                    avatar: 'https://r0csgo.com/logo1.png',
-                    name: '小栗子1001'
+                dispatch(updateSteamStatus('loading'))
+                const temp = window.open(res.data, '_blank', 'location=no')
+                temp?.addEventListener('close', () => {
+                    console.log('打开的steam登录窗口关闭了')
+                    dispatch(updateSteamStatus(''))
                 })
-                setStatus('success')
-            } else {
-                setStatus('error')
             }
+        })
+    }
 
-            setLoading(false)
-        }, 2000)
+    const db_steamLink = _.debounce(() => {
+        fetchSteamInfo()
+    }, 1500)
+
+
+    useEffect(() => {
+        if (!props.link) {
+
+        }
+    }, [props.link]);
+
+
+    function listenStorage(e) {
+        const value = e.newValue
+        const data = value ? JSON.parse(value) : null
+        if (data && data?.type === 'loginSteam') {
+            dispatch(updateToken(data.token))
+            dispatch(updateSteamStatus(data.status))
+
+            if (data.status == 'success') {
+                dispatch(updateLoginModal(false))
+                const routerPath = RouterPath()
+                navigate(routerPath.center)
+            }
+        }
     }
 
     useEffect(() => {
-        fetchSteamInfo()
-        return ()=>{
-            setSteamInfo(InitSteamInfo)
-        }
-    }, [])
+        window.addEventListener("storage", listenStorage)
 
+        return () => {
+            window.removeEventListener("storage", listenStorage)
+        }
+    }, []);
 
     return (
-        <div className={myCss.container}>
-            <Flex justify={'center'} align={'center'} vertical className={myCss.top}>
+        !props.link ?
+            <div className={myCss.container}>
+                <Flex justify={'center'} align={'center'} vertical className={myCss.top}>
+                    <Icons type={'r-steam1'} size={50} color={'#505153'}/>
+                    <p>
+                        {descText[steamStatus]}
+                    </p>
 
-                {
-                    steamInfo?.avatar ? (
-                        <Avatar src={'https://r0csgo.com/logo1.png'} size={50}/>
-                    ) : (
-                        <Icons type={'r-steam1'} size={50} color={'#505153'}/>
-                    )
-                }
-                <p>
                     {
-                        steamInfo?.name ? (
-                            steamInfo?.name
-                        ) : (
-                            descText[status]
+                        steamStatus == 'error' && (
+                            <Flex className={myCss.error}>
+                                您登录的Steam账号未绑定R0平台账号
+                            </Flex>
                         )
                     }
+
+                </Flex>
+                <p className={myCss.desc}>
+                    如您未开启 <span>Steam加速器</span>，可能会导致Steam网站无法访问！
                 </p>
-
-                {
-                    status == 'error' && (
-                        <Flex className={myCss.error}>
-                            Steam账号未登录，请确Steam在线后重试
-                        </Flex>
-                    )
-                }
-            </Flex>
-
-
-
-            <Button type={'primary'} loading={loading} size={'large'} style={{width: '100%'}}>
-                {btnText[status]}
-            </Button>
-
-        </div>
+                <Button type={'primary'} disabled={steamStatus === 'loading'} loading={steamStatus === 'loading'}
+                        size={'large'} style={{width: '100%'}}
+                        onClick={fetchSteamInfo}>
+                    {btnText[steamStatus]}
+                </Button>
+            </div> : (
+                <></>
+            )
     );
 }
 

@@ -1,3 +1,4 @@
+
 .container {
   background: white;
   display: flex;
@@ -17,11 +18,19 @@
     box-shadow: 0 -1px 32px 0 rgba(29, 102, 189, .16);
   }
 
+  .icons {
+    font-size: 50px !important;
+    color: rebeccapurple;
+  }
+
   .icon {
     background: white;
     width: fit-content;
+    height: fit-content;
     position: relative;
     padding: 0.5rem;
+
+
 
     &::before {
       position: absolute;
@@ -54,5 +63,45 @@
     color: #b5afcc;
     font-size: 13px;
     letter-spacing: 1px;
+    margin-top: 10px;
   }
+}
+
+/* 中型屏幕（如平板） */
+@media screen and (max-width: 1024px) {
+  .container {
+    //background: red !important;
+  }
+}
+
+/* 小型屏幕（如手机） */
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: row !important;
+    height: fit-content;
+    padding: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+    justify-content: start;
+
+    .icons {
+      font-size: 30px !important;
+      color: rebeccapurple;
+    }
+
+    h4 {
+      margin: 0;
+      font-weight: normal;
+      font-size: 13px;
+      width: 100%;
+    }
+
+    .desc {
+      color: #b5afcc;
+      letter-spacing: 1px;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  }
+
 }

@@ -1,21 +1,21 @@
 import {RespVerify, UserInfo} from "@type/user/interface.ts";
-import {InitUserInfo} from "@type/user";
+import {InitUserInfo, InitVerity} from "@type/user";
 
 export const initialState: State = {
     token: '',
     userInfo: InitUserInfo,
-    verifyInfo: {
-        id: "",
-        imageBase64: "",
-        thumbBase64: ""
-    },
+    verifyInfo: InitVerity,
+    steamStatus: ''
 };
 
 export interface State {
     token: string
     userInfo: UserInfo
-    verifyInfo:RespVerify
+    verifyInfo: RespVerify
+    steamStatus: SteamStatusType
+
 }
 
+export type SteamStatusType = 'loading' | 'success' | 'error' | ''
 
 

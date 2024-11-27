@@ -1,11 +1,11 @@
 import {post} from "@utils/request/RequestMethod";
-import {CheckVerifyParams, LoginByPhoneParams, RespVerify} from "@type/user/interface.ts";
+import {LoginByPhoneParams, LoginPhoneResp, RespVerify, SendCodeParams} from "@type/user/interface.ts";
 
 /**
  * 手机验证码登录
  */
 export function LoginByPhoneApi(data: LoginByPhoneParams) {
-    return post<API.Resp<string>>(
+    return post<API.Resp<LoginPhoneResp>>(
         '/login/phone',
         data
     )
@@ -14,19 +14,19 @@ export function LoginByPhoneApi(data: LoginByPhoneParams) {
 /**
  * 手机发送验证码
  */
-export function SendCodeQApi(phone: string) {
+export function SendCodeQApi(data:SendCodeParams) {
     return post<API.Resp<string>>(
         '/login/sendCode',
-        {phone}
+        data
     )
 }
 
 /**
- * Steam授权登录
+ * 生成Steam登录链接
  */
 export function LoginSteamApi() {
     return post<API.Resp<string>>(
-        '/api/auth/login',
+        '/login/steam/genSteamLoginLink',
     )
 }
 
@@ -39,12 +39,3 @@ export function getVerifyApi() {
     )
 }
 
-/**
- * 验证图形
- */
-export function checkVerifyApi(data: CheckVerifyParams) {
-    return post<API.Resp<null>>(
-        '/common/verify/check',
-        data
-    )
-}

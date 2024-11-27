@@ -1,16 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import {Button, FormInstance} from "antd";
+import React, {useEffect, useRef, useState} from 'react';
+import {Button, FormInstance, Input} from "antd";
 import {SendCodeQApi} from "@api/login.ts";
-import {LoginFieldType} from "@type/user/interface.ts";
+import {sendCodeByPhoneApi} from "@api/user.ts";
+import Verify, {VerifyRef} from "@pages/Login/components/Verify";
+import myCss from './index.module.less'
+import {useAppDispatch, useAppSelector} from "@store/Index";
+import {SendCodeParams, SendCodeType} from "@type/user/interface.ts";
+import {fetchVerify} from "@slice/UserSlice/extra.ts";
+import {initialState} from "@slice/UserSlice/interface.ts";
 
 interface Props {
-    form: FormInstance<LoginFieldType.phone>
+    form: FormInstance<any>
+    loginCode: boolean
+    type: SendCodeType
 }
 
 function Index(props: Props) {
+
+    const dispatch = useAppDispatch()
+
+    const {
+        verifyInfo
+    } = useAppSelector(state => state.UserSlice || initialState)
+
+    const verifyRef = useRef<VerifyRef>(null)
+
+    const [isVerify, setIsVerify] = useState<boolean>(false)
     const [start, setStart] = useState(false)
     const [count, setCount] = useState(0)
-
 
     useEffect(() => {
         if (count > 0) {
@@ -20,25 +37,67 @@ function Index(props: Props) {
         }
     }, [count])
 
-    const startHandler = () => {
-        if (start) return
+    function finish(angle: string): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            props.form.validateFields(['phone']).then((values) => {
+                const data: SendCodeParams = {
+                    phone: values.phone,
+                    key: verifyInfo?.id,
+                    code: props.type,
+                    angle: angle + ''
+                }
 
-        props.form.validateFields(['phone'])
-            .then(values => {
-                SendCodeQApi(values.phone)
-                    .then(res => {
-                        if (res.code === 200) {
-                            setStart(true)
-                            setCount(3)
-                        }
-                    })
+                const api = props.loginCode ? SendCodeQApi : sendCodeByPhoneApi
+
+                api(data).then(res => {
+                    if (res.code === 200) {
+                        setStart(true)
+                        setCount(60)
+                        setIsVerify(true)
+                        resolve(true)
+                    }
+                }).catch(() => {
+                    dispatch(fetchVerify())
+                    reject(false)
+                })
             })
+        })
+    }
+
+    const targetBefore = (): Promise<boolean> => {
+        return new Promise((resolve, reject) => {
+            props.form.validateFields(['phone']).then(value => {
+                resolve(true)
+            }).catch(() => {
+                reject(false)
+            })
+        })
     }
 
     return (
-        <Button disabled={start} type={'link'}
-                size={'small'}
-                onClick={startHandler}>{start ? `${count}秒后重新获取` : '获取验证码'}</Button>
+        <div className={myCss.container}>
+            <div className={myCss.son} style={{zIndex: isVerify ? 1 : -22}}>
+                <Input
+                    size={'large'}
+                    placeholder={'验证码'}
+                    allowClear={true}
+                    suffix={
+                        <Button
+                            disabled={start}
+                            type={'link'}
+                            size={'small'}
+                        >
+                            {start ? `${count}秒后重新获取` : '获取验证码'}
+                        </Button>
+                    }
+                    onChange={(v) => props.form.setFieldValue('code', v.target.value)}
+                />
+            </div>
+
+            <div className={myCss.son} style={{zIndex: !isVerify ? 1 : -22}}>
+                <Verify ref={verifyRef} finish={finish} targetBefore={targetBefore}/>
+            </div>
+        </div>
     );
 }
 

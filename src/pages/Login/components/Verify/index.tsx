@@ -1,13 +1,13 @@
 import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react';
-import {Flex, message, Modal} from "antd";
+import {Flex, Modal} from "antd";
 import GoCaptcha from "go-captcha-react";
 import _ from 'lodash'
 import {useAppDispatch, useAppSelector} from "@store/Index";
-import {checkVerifyApi} from "@api/login.ts";
 import {fetchVerify} from "@slice/UserSlice/extra.ts";
 import {updateVerifyInfo} from "@slice/UserSlice";
 import Icons from "@comps/Icons";
 import myCss from './index.module.less'
+import {initialState} from "@slice/UserSlice/interface.ts";
 
 interface RotateRef {
     reset: () => void;
@@ -21,12 +21,16 @@ export interface VerifyRef {
     refreshVerify: () => void
 }
 
-const Index = forwardRef((__, ref) => {
+interface Props {
+    finish?: (angle: string) => Promise<boolean>
+    targetBefore?: () => Promise<boolean>
+}
+
+const Index = forwardRef((props: Props, ref) => {
     useImperativeHandle((ref), () => {
         return {
             setCapVisible,
             refreshVerify,
-
         }
     })
 
@@ -34,9 +38,10 @@ const Index = forwardRef((__, ref) => {
 
     const {
         verifyInfo
-    } = useAppSelector(state => state.UserSlice)
+    } = useAppSelector((state) => state.UserSlice||initialState)
 
     const [capVisible, setCapVisible] = useState(false)
+
     const [check, setCheck] = useState(false)
 
     const rotateRef = useRef<RotateRef>(null);
@@ -62,29 +67,32 @@ const Index = forwardRef((__, ref) => {
      * 验证验证码
      */
     function checkVerify(point: string, reset: Function) {
-        checkVerifyApi({
-            angle: point + '',
-            key: verifyInfo?.id
-        }).then(res => {
-            if (res.code !== 200) {
+        if (props?.finish) {
+            props?.finish(point).then(res => {
+                console.log(res)
+                setCheck(true)
+
+                setCapVisible(false)
+
+                dispatch(updateVerifyInfo({
+                    id: '',
+                    imageBase64: '',
+                    thumbBase64: ''
+                }))
+
+            }).catch(() => {
                 reset()
-                return
-            }
-            setCheck(true)
-            setCapVisible(false)
-            dispatch(updateVerifyInfo({
-                id: '',
-                imageBase64: '',
-                thumbBase64: ''
-            }))
-        }).catch((err) => {
-            reset()
-            console.log(err)
-            message.error(err)
-        })
+            })
+        }
     }
 
-    function clickTarget() {
+    async function clickTarget() {
+        let flag = true
+        if (props?.targetBefore) {
+            flag = await props?.targetBefore()
+        }
+        if (!flag) return
+
         setCapVisible(true)
     }
 
@@ -122,8 +130,8 @@ const Index = forwardRef((__, ref) => {
                 <GoCaptcha.Rotate
                     data={{
                         angle: 20,
-                        image: verifyInfo.imageBase64,
-                        thumb: verifyInfo.thumbBase64
+                        image: verifyInfo?.imageBase64 || '',
+                        thumb: verifyInfo?.thumbBase64 || ''
                     }}
                     events={{
                         rotate(angle: number): void {

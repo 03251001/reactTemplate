@@ -6,6 +6,7 @@ import Footer, {LoginMethod} from "@pages/Login/components/Footer";
 import {useState} from "react";
 import SteamForm from "@pages/Login/components/SteamForm";
 import ScanForm from "@pages/Login/components/ScanForm";
+import {initialState} from "@slice/GlobalSlice/interface.ts";
 
 
 function Index() {
@@ -13,7 +14,7 @@ function Index() {
 
     const {
         loginModalVisible
-    } = useAppSelector(state => state.GlobalSlice)
+    } = useAppSelector(state => state.GlobalSlice || initialState)
 
     const [type, setType] = useState<LoginMethod>('phone')
 
@@ -28,9 +29,10 @@ function Index() {
             open={loginModalVisible}
             onCancel={handleCancel}
             footer={null}
+            destroyOnClose={true}
         >
             {type === "phone" && <PhoneForm/>}
-            {type === "steam" && <SteamForm/>}
+            {type === "steam" && <SteamForm link={false}/>}
             {type === "scan" && <ScanForm/>}
 
             <Footer

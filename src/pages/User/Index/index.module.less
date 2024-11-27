@@ -1,15 +1,11 @@
+
 .container {
   height: 100%;
 
   .inner {
-    margin-top: 50px;
-    width: 620px;
+    width: 100%;
     box-sizing: border-box;
-
-    &.mobile {
-      width: 100%;
-      margin: 1rem;
-    }
+    padding: 14px;
   }
 
   .row {
@@ -17,5 +13,14 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 10px;
+  }
+}
+
+
+/* 中型屏幕（如平板） */
+@media screen and (min-width: 1024px) {
+  .container {
+    width: 620px;
+    margin: 0 auto;
   }
 }

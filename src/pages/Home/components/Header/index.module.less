@@ -1,54 +1,51 @@
 
-
 .container {
-  padding-top: 1rem;
-  padding-bottom:1rem;
   box-sizing: border-box;
   background: #f9fbff;
+  padding: 1rem;
 
-  .inner{
+  .inner {
     width: 1440px;
     margin: 0 auto;
   }
 
   .img {
-    width: 200px;
+    width: 13rem;
+  }
+
+  .mixin_btn() {
+    border-radius: 50px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    letter-spacing: 1px;
+    padding: 0.3rem 1.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
   }
 
   .login {
     background: #eef0ff;
     color: #4f42b6;
-    border-radius: 50px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    letter-spacing: 1px;
-    font-size: 15px;
-    padding: 0.5rem 1.5rem;
+    .mixin_btn();
   }
 
 
-  .out{
+  .out {
     background: #565bdd;
     color: white;
-    border-radius: 50px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    letter-spacing: 1px;
-    font-size: 15px;
-    padding: 0.5rem 1.5rem;
+    .mixin_btn();
   }
 
-  &.mobile {
-    padding: 1rem;
-    width: 100%;
-    border-bottom: 1px solid #f5f5f5;
+  .name {
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+}
 
-    .card {
-      font-size: 0.8rem;
-    }
-
+/* 小型屏幕（如手机） */
+@media screen and (max-width: 600px) {
+  .container {
     .img {
       width: 8rem;
     }

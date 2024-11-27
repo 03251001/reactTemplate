@@ -2,12 +2,17 @@
   background: #f9fbff;
 
   .title {
-    width: 1440px;
-    margin: 50px auto;
+
+    padding: 50px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
 
     h1, h5 {
       text-align: center;
-      margin-bottom: 0;
+      margin: 0;
       letter-spacing: 1px;
     }
 
@@ -24,12 +29,53 @@
   .inner {
     overflow-y: auto;
     background: #eef0ff;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
   }
 
   .cardBox {
-    width: 1000px;
+    background: #eef0ff;
     margin: 0 auto;
+    padding: 3rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+}
+
+
+/* 小型屏幕（如手机） */
+@media screen and (max-width: 600px) {
+  .title {
+    background-image: url("@assets/banner_mobile.png") ;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 23vh;
+    padding: 0 !important;
+    gap: 10px;
+    align-items: start !important;
+    justify-content: start !important;
+
+    h1, h5 {
+      text-align: left !important;
+      text-indent: 1rem;
+    }
+
+    h1 {
+      font-size: 1rem;
+      padding-top: 2rem;
+    }
+  }
+
+  .cardBox {
+    flex-direction: column;
+    padding: 1rem !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    gap: 1rem !important;
+  }
+}
+
+@media screen and (min-width: 1040px) {
+  .title {
+    background: #f9fbff;
   }
 }

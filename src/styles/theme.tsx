@@ -5,6 +5,7 @@ export const theme = {
     components: {
         Button: {
             colorLink:'#6971fe',
+            colorLinkHover:'#949aff',
         }
     }
 }

@@ -1,15 +1,21 @@
-import {Button, Flex, Form, Input} from "antd";
-import {FieldType} from "@type/user/updatePwd/interface.ts";
-import {validCode} from "@type/user/valid";
-import Code from "@comps/Code";
+import {Button, Flex, Form, Input, message} from "antd";
 import {isMobile} from "@utils/loginMethod";
+import {updateR0PwdApi} from "@api/user.ts";
 
 function Index() {
     const mobile = isMobile()
-    const [form] = Form.useForm()
+    const [form] = Form.useForm<FieldType.updatePwd>()
 
     function onFinish() {
-
+        form?.validateFields().then(values=>{
+            updateR0PwdApi(values).then(res => {
+                if (res.code === 200) {
+                    message.success('修改密码成功')
+                    form.resetFields()
+                    history.back()
+                }
+            })
+        })
     }
 
     return (
@@ -24,7 +30,7 @@ function Index() {
                     onFinish={onFinish}
                     autoComplete="off"
                 >
-                    <Form.Item<FieldType>
+                    <Form.Item<FieldType.updatePwd>
                         label="旧密码"
                         name="oldPwd"
                         rules={[{required: true}]}
@@ -32,21 +38,12 @@ function Index() {
                         <Input.Password size={'large'}/>
                     </Form.Item>
 
-                    <Form.Item<FieldType>
+                    <Form.Item<FieldType.updatePwd>
                         label="新密码"
                         name="newPwd"
                         rules={[{required: true}]}
                     >
                         <Input.Password size={'large'}/>
-                    </Form.Item>
-
-                    <Form.Item<FieldType>
-                        label="验证码"
-                        name="code"
-                        required={true}
-                        rules={[{validator: validCode}]}
-                    >
-                        <Input size={'large'} suffix={<Code form={form}/>}/>
                     </Form.Item>
 
                     <Form.Item label={null}>

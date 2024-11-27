@@ -1,7 +1,12 @@
 import {ReqEncrypt} from '@utils/rsa/ReqUtils';
 
 export function getNewRequestUrl(url: string): string {
-    const t = new Date().getTime()
-    const assert = ReqEncrypt(t)
-    return `${url}?s=${assert}`
+    try {
+        const t = new Date().getTime()
+        const result = parseInt((t / 1000) + '')
+        const assert = ReqEncrypt(result)
+        return `${url}?sign=${assert}`
+    } catch (e) {
+        return ''
+    }
 }

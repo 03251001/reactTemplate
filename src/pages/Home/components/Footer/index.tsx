@@ -8,7 +8,7 @@ interface Props{
 
 function Index(props:Props) {
     return (
-        <Flex justify={'center'} vertical align={'center'} className={`${myCss.container} ${props.mobile && myCss.mobile}`}>
+        <Flex justify={'center'} vertical align={'center'} className={myCss.container}>
             <p>R0对战平台 | 2024 © Powered By 江老</p>
             <p>商务：business@r0csgo.com 联系方式：19310596660</p>
         </Flex>
