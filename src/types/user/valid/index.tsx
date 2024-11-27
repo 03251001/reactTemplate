@@ -26,3 +26,16 @@ export const validCode = (__: RuleObject, value: string, callback: (v?: string) 
 
     return callback()
 }
+
+export const validAgainPwd = (__: RuleObject, value: string, callback: (v?: string) => void) => {
+    if (_.isEmpty(value)) {
+        return callback('请确认密码')
+    }
+    const digitsRegExp = /^\d+$/;
+    const flag = digitsRegExp.test(value)
+    if (!flag) {
+        return callback('验证码错误')
+    }
+
+    return callback()
+}

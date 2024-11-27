@@ -69,11 +69,23 @@ export function loginOutApi() {
  * 重置密码
  * @constructor
  */
-export function resetPwdApi(data:FieldType.phone) {
+export function resetPwdApi(data:FieldType.resetPwd) {
     return post<API.Resp<string>>(
         '/user/changer/restPwd',
         data
     )
 }
+
+/**
+ * 重置密码  发送验证码
+ * @constructor
+ */
+export function sendCodeByResetApi(data:SendCodeParams) {
+    return post<API.Resp<string>>(
+        '/user/changer/sendRestCode',
+        data
+    )
+}
+
 
 

@@ -1,18 +1,23 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, FormInstance, Input} from "antd";
-import {SendCodeQApi} from "@api/login.ts";
-import {sendCodeByPhoneApi} from "@api/user.ts";
 import Verify, {VerifyRef} from "@pages/Login/components/Verify";
 import myCss from './index.module.less'
 import {useAppDispatch, useAppSelector} from "@store/Index";
 import {SendCodeParams, SendCodeType} from "@type/user/interface.ts";
 import {fetchVerify} from "@slice/UserSlice/extra.ts";
 import {initialState} from "@slice/UserSlice/interface.ts";
+import {sendCodeByPhoneApi, sendCodeByResetApi} from "@api/user.ts";
+import {SendCodeQApi} from "@api/login.ts";
 
 interface Props {
     form: FormInstance<any>
-    loginCode: boolean
     type: SendCodeType
+}
+
+const Api = {
+    'sendPhone':sendCodeByPhoneApi,
+    '4':SendCodeQApi,
+    'restCode':sendCodeByResetApi,
 }
 
 function Index(props: Props) {
@@ -46,10 +51,7 @@ function Index(props: Props) {
                     code: props.type,
                     angle: angle + ''
                 }
-
-                const api = props.loginCode ? SendCodeQApi : sendCodeByPhoneApi
-
-                api(data).then(res => {
+                Api[props.type](data).then(res => {
                     if (res.code === 200) {
                         setStart(true)
                         setCount(60)

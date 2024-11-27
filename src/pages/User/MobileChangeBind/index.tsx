@@ -58,11 +58,7 @@ function Index() {
                         rules={[{validator: validCode}]}
                     >
 
-                        <Code
-                            form={form}
-                            loginCode={false}
-                            type={'sendPhone'}
-                        />
+                        <Code form={form} type={'sendPhone'}/>
 
                     </Form.Item>
 

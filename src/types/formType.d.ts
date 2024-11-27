@@ -14,4 +14,11 @@ declare namespace FieldType {
         oldPwd: string
         newPwd: string
     }
+
+    type resetPwd = {
+        phone: string
+        code: string
+        pwd: string
+        again: string
+    }
 }
