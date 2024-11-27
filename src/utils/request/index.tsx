@@ -6,7 +6,7 @@ import {v4 as uuidV4} from 'uuid';
 import {ReqEncrypt} from "@utils/rsa/ReqUtils.ts";
 import {xorDecrypt} from "@utils/request/RespUtils.ts";
 
-const eq = true
+const eq = true //
 
 const http: AxiosInstance = axios.create({
     baseURL: '/api',
@@ -69,7 +69,7 @@ http.interceptors.response.use(
     (error) => {
         if (error.response) {
             RespErrorHandler(error.response.data)
-        } else {  // 请求未发出或网络错误
+        } else { // 请求未发出或网络错误
             console.error('Network error or request timeout')
         }
         return Promise.reject(error.response);
@@ -77,4 +77,3 @@ http.interceptors.response.use(
 );
 
 export default http;
-// 15273034239

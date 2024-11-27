@@ -1,8 +1,9 @@
-import React, {createContext, useContext, useEffect} from 'react';
+import React, {createContext, useEffect} from 'react';
 import {message} from 'antd';
 import {MessageInstance} from "antd/es/message/interface";
 import {useAppDispatch, useAppSelector} from "@store/Index";
 import {updateGlobalError} from "@slice/GlobalSlice";
+import {initialState} from "@slice/GlobalSlice/interface.ts";
 
 const MessageContext = createContext<MessageInstance | null>(null);
 
@@ -13,7 +14,7 @@ export const MessageProvider = ({children}) => {
 
     const {
         globalError
-    } = useAppSelector(state => state.GlobalSlice)
+    } = useAppSelector(state => state.GlobalSlice || initialState)
 
     useEffect(() => {
         if (globalError?.text && globalError?.type) {
@@ -34,6 +35,4 @@ export const MessageProvider = ({children}) => {
     );
 };
 
-export const useMessageApi = () => {
-    return useContext(MessageContext);
-};
+

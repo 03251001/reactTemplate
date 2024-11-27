@@ -1,7 +1,6 @@
 import {ReactElement, useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from "@store/Index";
+import {useAppSelector} from "@store/Index";
 import Home from "@pages/Home";
-import {fetchUserInfo} from "@slice/UserSlice/extra.ts";
 import {RouterPath} from "@/routes/routerPath.ts";
 import {initialState} from "@slice/UserSlice/interface.ts";
 
@@ -10,7 +9,6 @@ interface Props {
 }
 
 function Index(props: Props) {
-    const dispatch = useAppDispatch()
     const routerPath = RouterPath()
 
     const {
@@ -18,13 +16,12 @@ function Index(props: Props) {
     } = useAppSelector(state => state.UserSlice || initialState)
 
     useEffect(() => {
-        if (token) {
-            dispatch(fetchUserInfo())
+        if (token) { // 获取用户信息...
         }
     }, [token]);
 
 
-    if (!token) { // todo:在这个地方要么做一个手机号验证码的验证，要么让用户登录 ,这里先做的是让用户登录，后续跟后端沟通
+    if (!token) {
         history.replaceState(null, '',routerPath.home )
         return <Home/>
     }

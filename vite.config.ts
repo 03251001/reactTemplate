@@ -10,7 +10,7 @@ export default defineConfig({
 
     ],
     server: {
-        port: 10010,
+        port: 10020,
         host:true,
         proxy: {
             "/api": {
@@ -23,14 +23,14 @@ export default defineConfig({
     resolve: {
         alias: {
             "@": resolve(__dirname, "src"),
-            "@comps": resolve(__dirname, "src/components"),
             "@api": resolve(__dirname, "src/api"),
             "@assets": resolve(__dirname, "src/assets"),
+            "@comps": resolve(__dirname, "src/components"),
             "@pages": resolve(__dirname, "src/pages"),
+            "@router": resolve(__dirname, "src/router"),
             "@store": resolve(__dirname, "src/store"),
             "@slice": resolve(__dirname, "src/store/slice"),
             "@type": resolve(__dirname, "src/types"),
-            "@router": resolve(__dirname, "src/router"),
             "@handle": resolve(__dirname, "src/handle"),
             "@hooks": resolve(__dirname, "src/hooks"),
             "@utils": resolve(__dirname, "src/utils"),

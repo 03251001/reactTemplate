@@ -1,6 +1,5 @@
 import {store} from "@store/Index";
-import {isMobile} from "@utils/loginMethod";
-import {updateSteamStatus, updateToken, updateUserInfo} from "@slice/UserSlice";
+import {updateToken, updateUserInfo} from "@slice/UserSlice";
 import {InitUserInfo} from "@type/user";
 
 export function getToken() {
@@ -10,11 +9,10 @@ export function getToken() {
 /**
  * 需要token的点击事件
  */
-export function needTokenClick(errorBack: (mobile:boolean) => void,successBack: () => void) {
+export function needTokenClick(errorBack: () => void,successBack: () => void) {
     const token = getToken()
     if (!token) {
-        const mobile = isMobile()
-        errorBack(mobile)
+        errorBack()
         return
     }
     successBack()
@@ -26,5 +24,4 @@ export function needTokenClick(errorBack: (mobile:boolean) => void,successBack: 
 export function loginOutHandler() {
     store.dispatch(updateToken(''))
     store.dispatch(updateUserInfo(InitUserInfo))
-    store.dispatch(updateSteamStatus(''))
 }
