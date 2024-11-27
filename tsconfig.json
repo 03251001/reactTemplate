@@ -67,6 +67,7 @@
     "src",
     "src/**/*.ts",
     "src/**/*.js",
+    "typings/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",
